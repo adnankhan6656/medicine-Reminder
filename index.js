@@ -15,7 +15,9 @@ app.use(express.static('public'));
 app.use(express.json())
 app.use(express.static(path.join(__dirname, "public")));
 
-
+app.get("/",(req,res)=>{
+ res.render("index")
+})
 app.use("/user",userRoute)
 
 // Start the server
