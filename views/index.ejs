@@ -2,11 +2,113 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Add Medication</title>
     <link rel="stylesheet" href="/css/output.css">
 </head>
-<body>
-    <p class="text-3xl">Adnan</p>
+<body class="bg-[#F1F5F1]">
+  <div class="flex justify-between items-center shadow-lg h-20 p-7 bg-[#E2E8F0]">
+    <div class="left">
+        <p class="text-[#334155] text-2xl font-medium">
+            <span class="font-bold">Medication</span> Reminder</p>
+    </div>
+    <div class="right flex gap-3" >
+        <a href="user/logout" class="hover:underline" >Log Out From This device</a>
+        <a href="user/logoutAll" class="hover:underline">Log Out From All device</a>
+    </div>
+  </div>
+    <form id="medicationForm" class="bg-white mt-7 max-w-2xl mx-auto shadow-lg p-12 flex flex-col" action="http://localhost:3000/medication/add-medication" method="POST">
+        <h1 class="text-3xl mb-2 font-bold text-center text-[#334155] mb-10">Add Medication</h1>
+<div class="flex items-center gap-2">
+    <label class="text-lg" for="medicineName">Medicine Name:</label>
+    <input type="text" id="medicineName" class="p-2  w-full rounded-md bg-slate-100" name="medicineName"><br><br>
+</div>
+
+<div class="flex mt-2 items-center gap-2">
+        <label class="text-lg" for="description">Description:</label>
+        <textarea id="description" name="description" class="p-2  w-full rounded-md bg-slate-100" required></textarea><br><br>
+    </div>
+
+    <div class="flex mt-4 items-center gap-2">
+        <label class="text-lg" for="medicationType">Medication Type:</label>
+        <select id="medicationType" name="medicationType" class="bg-slate-100 p-3" required onchange="toggleMedicationType()">
+            <option value="">Select Type</option>
+            <option value="one-time">One Time</option>
+            <option value="recurring">Recurring</option>
+        </select><br><br>
+    </div>
+        <div id="oneTimeFields" class="hidden">
+            <div class="flex mt-4 items-center gap-2">
+            <label class="text-lg" class="text-lg" for="oneTimeDate">Date:</label>
+            <input type="date" id="oneTimeDate" class="bg-slate-100" name="oneTimeDate"><br><br>
+            </div>
+            <div class="flex mt-4 items-center gap-2">
+            <label class="text-lg" for="oneTimeTime">Time:</label>
+            <input type="time" id="oneTimeTime" class="bg-slate-100" name="oneTimeTime"><br><br>
+        </div>
+        </div>
+
+        <div id="recurringFields" class="hidden">
+            <label class="text-lg" for="startDate">Start Date:</label>
+            <input type="date" id="startDate" name="startDate"><br><br>
+
+            <label class="text-lg" for="endDate">End Date:</label>
+            <input type="date" id="endDate" name="endDate"><br><br>
+
+            <label class="text-lg" for="recurringFrequency">Frequency:</label>
+            <select id="recurringFrequency" class="p-3" name="recurringFrequency" onchange="toggleFrequencyType()">
+                <option value="">Select Frequency</option>
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+            </select><br><br>
+
+            <div id="weeklyFields" class="hidden">
+                <label class="text-lg" for="dayOfWeek">Day of the Week:</label>
+                <select id="dayOfWeek" name="dayOfWeek" class="bg-slate-100">
+                    <option value="Sunday">Sunday</option>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                </select><br><br>
+            </div>
+
+            <label class="text-lg" for="recurringTime">Time:</label>
+            <input type="time" id="recurringTime" name="recurringTime"><br><br>
+        </div>
+
+        <button type="submit" class="bg-[#334155] text-white mt-12 p-2 ml-16 rounded-md">Add Medication</button>
+    </form>
+
+    <script>
+        function toggleMedicationType() {
+            var medicationType = document.getElementById('medicationType').value;
+            var oneTimeFields = document.getElementById('oneTimeFields');
+            var recurringFields = document.getElementById('recurringFields');
+
+            if (medicationType === 'one-time') {
+                oneTimeFields.style.display = 'block';
+                recurringFields.style.display = 'none';
+            } else if (medicationType === 'recurring') {
+                oneTimeFields.style.display = 'none';
+                recurringFields.style.display = 'block';
+            } else {
+                oneTimeFields.style.display = 'none';
+                recurringFields.style.display = 'none';
+            }
+        }
+
+        function toggleFrequencyType() {
+            var recurringFrequency = document.getElementById('recurringFrequency').value;
+            var weeklyFields = document.getElementById('weeklyFields');
+
+            if (recurringFrequency === 'weekly') {
+                weeklyFields.style.display = 'block';
+            } else {
+                weeklyFields.style.display = 'none';
+            }
+        }
+    </script>
 </body>
 </html>

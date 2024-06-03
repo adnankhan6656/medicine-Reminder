@@ -15,11 +15,11 @@
             <a class="text-blue-900 mt-2" href="/user/register">Don't have Acccount?</a>
         </div>
   <div class="right p-8 w-[50%] bg-[#F8F9FC] shadow-lg mb-3">
-    <form action="" class="flex flex-col">
+    <form action="/user/login" class="flex flex-col" method="POST">
         <p class="text-lg mb-2 font-medium">Login</p>
     
-     <input type="email" placeholder="Enter Email" class=" focus:outline-none mt-4 p-2 w-full bg-white rounded-md  ">
-     <input type="password" placeholder="Enter password" class=" focus:outline-none mt-4 p-2 w-full bg-white rounded-md outline:outline-none ">
+     <input type="email" name="email" placeholder="Enter Email" class=" focus:outline-none mt-4 p-2 w-full bg-white rounded-md  ">
+     <input type="password" name="password" placeholder="Enter password" class=" focus:outline-none mt-4 p-2 w-full bg-white rounded-md outline:outline-none ">
     <button class="p-2 rounded text-white mt-4 bg-[#6540EA]">Login</button>
     </form>
   </div>

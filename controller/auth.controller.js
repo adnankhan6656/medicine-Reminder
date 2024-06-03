@@ -12,6 +12,7 @@ const userRegistraion=async(req,res)=>{
                  email
              }
           });
+          console.log(isuserExist)
           if(isuserExist){
             return res.json(400).json({message:"Email Already exist"});
           }
@@ -20,10 +21,7 @@ const userRegistraion=async(req,res)=>{
           const user=await User.create({
               name,email,password:hashPassword
              });
-             const {password:pass, ...rest } = user.get({plain:true});
-          return res.status(201).json({
-       rest
-          })
+             res.redirect("/user/login")
         
     } catch (error) {
         
@@ -32,6 +30,7 @@ const userRegistraion=async(req,res)=>{
 
 const userLogin=async(req,res)=>{
     try {
+        console.log('inside the login controller')
         const {email,password}=req.body;
         const isValidUser=await User.findOne({
             where:{
@@ -47,6 +46,7 @@ const userLogin=async(req,res)=>{
        }
      const token=await jwt.sign({id:isValidUser.id},process.env.JWT_SECRET_KEY);
        const {password:pass, ...rest } = isValidUser.get({plain:true});
+       
     const di=await UserSession.create({ user_id: isValidUser.id,session_id:token});
       return  res
       .cookie('access_token', token, { httpOnly: true })
@@ -60,14 +60,18 @@ const userLogin=async(req,res)=>{
 // Logout from current device
 const logoutCurrentDevice=async(req,res)=>{
     try {
-        const token=req.access_token;
-        console.log(user)
-        await UserSession.destroy({
-            where:{
-                user_id:req.user_id,
-               session_id:token
-            }
-        })
+       
+        const token=req.cookies.access_token;
+        
+          await UserSession.destroy({
+                        where:{
+                               user_id:req.user_id,
+                                session_id:token
+                            },
+                
+                        });
+       
+       res.clearCookie('access_token');
         
     } catch (error) {
     }
@@ -78,7 +82,7 @@ const logoutAllDevices=async(req,res)=>{
             where:{
                 user_id:req.user_id,
             }
-        })
+        });
     } catch (error) {
         
     }

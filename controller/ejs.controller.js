@@ -1,6 +1,6 @@
 const getLoginController=async(req,res)=>{
 try {
-    res.render("login/Login.ejs")
+    res.render("login/login.ejs")
    
 } catch (error) {
     
